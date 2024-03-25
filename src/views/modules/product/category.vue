@@ -1,15 +1,15 @@
 <template>
-    <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+    <el-tree :data="menus" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
 </template>
 
 <script>
 export default {
     data () {
         return {
-            data: [],
+            menus: [],
             defaultProps: {
                 children: 'children',
-                label: 'label'
+                label: 'name'
             }
         }
     },
@@ -24,8 +24,9 @@ export default {
             this.$http({
                 url: this.$http.adornUrl('/product/category/list/tree'),
                 method: 'get',
-            }).then(data => {
-                console.log(JSON.stringify(data))
+            }).then(({data}) => {   // 使用 解构赋值 方式直接获取 data 属性，否则你需要写 data.data.data 才可以取到值
+                // console.log(data)
+                this.menus = data.data
             })
         },
     }
