@@ -16,7 +16,7 @@
                     Append
                   </el-button>
                   <el-button
-                      v-if="node.childNodes.length == 0"
+                      v-if="node.childNodes.length === 0"
                       size="mini"
                       type="text"
                       @click="() => remove(node, data)">
