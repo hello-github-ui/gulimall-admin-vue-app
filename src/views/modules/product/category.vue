@@ -23,7 +23,7 @@
         </span>
         </el-tree>
 
-        <el-dialog :visible.sync="dialogFormVisible" :title="dialogTitle">
+        <el-dialog :visible.sync="dialogFormVisible" :title="dialogTitle" :close-on-click-modal="false">
             <el-form :model="form">
                 <el-form-item :label-width="formLabelWidth" label="分类名称">
                     <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -99,6 +99,11 @@ export default {
             this.form.name = ''
             this.form.parentCid = data.catId
             this.form.catLevel = data.catLevel * 1 + 1
+            this.form.catId = null
+            this.form.icon = ''
+            this.form.productUnit = ''
+            this.form.showStatus = 1
+            this.form.sort = 0
         },
         showEdit (data) {   // 显示-编辑分类
             console.log('要修改的数据: ', data)
@@ -146,7 +151,8 @@ export default {
             this.$confirm(`是否要删除掉【${node.data.name}】菜单?`, '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
-                type: 'warning'
+                type: 'warning',
+                closeOnClickModal: false
             }).then(() => {
                 this.$http({
                     url: this.$http.adornUrl('/product/category/delete'),
@@ -157,7 +163,7 @@ export default {
                         this.$message({
                             message: '删除成功!',
                             type: 'success',
-                            duration: 1500,
+                            duration: 1000,
                             onClose: () => {    // 提示框关闭后回调
                                 // 重新请求数据
                                 this.getMenuListTree()
@@ -189,7 +195,7 @@ export default {
                     this.$message({
                         message: '修改成功!',
                         type: 'success',
-                        duration: 1500,
+                        duration: 1000,
                         onClose: () => {    // 提示框关闭后回调
                             // 关闭对话框
                             this.dialogFormVisible = false
