@@ -253,7 +253,7 @@ export default {
             console.log('allowDrop: ', draggingNode, dropNode, type)
             this.countNodeLevel(draggingNode)
             // 计算深度
-            let deep = this.maxLevel - draggingNode.level + 1
+            let deep = Math.abs(this.maxLevel - draggingNode.level + 1)
             console.log('深度: ', deep)
             if (type === 'inner') {
                 // 拖动到目标节点内，只需要当前节点深度+目标节点层级 不大于3 即可
