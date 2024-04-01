@@ -8,6 +8,7 @@
         <el-button type="success" plain size="mini" round @click="batchSave" v-if="draggable">保存批量拖拽</el-button>
         <el-button type="info" plain size="mini" round @click="cancelBatchDrag" v-if="draggable">取消批量拖拽
         </el-button>
+        <el-button type="danger" size="mini" round @click="batchDelete">批量删除菜单</el-button>
 
         <el-tree :data="menus"
                  :default-expanded-keys="expandedNode"
@@ -18,6 +19,7 @@
                  :draggable="draggable"
                  :allow-drop="allowDrop"
                  @node-drop="handleDrop"
+                 ref="menuTree"
         >
         <span slot-scope="{ node, data }" class="custom-tree-node">
             <span>{{ node.label }}</span>
@@ -307,6 +309,39 @@ export default {
                     this.updateNodes = []
                 }
             )
+        },
+        batchDelete () {  // 批量删除菜单
+            // 调用 el-tree 组件中自带的方法getCheckedNodes获取目前被选中的节点所组成的数组
+            let checkedNodes = this.$refs.menuTree.getCheckedNodes()
+            console.log('被批量删除的菜单id: ', checkedNodes)
+            let batchDeleteMenusIds = []
+            let batchDeleteMenuNames = []
+            for (let i = 0; i < checkedNodes.length; i++) {
+                batchDeleteMenusIds.push(checkedNodes[i].catId)
+                batchDeleteMenuNames.push(checkedNodes[i].name)
+            }
+
+            this.$confirm(`是否要批量删除掉【${batchDeleteMenuNames}】这些菜单?`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                closeOnClickModal: false
+            }).then(() => {
+                this.$http({
+                    url: this.$http.adornUrl('/product/category/delete'),
+                    method: 'post',
+                    data: this.$http.adornData(batchDeleteMenusIds, false)
+                }).then(() => {
+                    this.$message({
+                        message: '菜单批量删除成功',
+                        type: 'success'
+                    })
+                    // 刷新菜单
+                    this.getMenuListTree()
+                })
+            }).catch(() => {
+                // console.log("已取消批量删除菜单")
+            })
         },
         cancelBatchDrag () {    // 取消批量拖拽
             // 刷新菜单
