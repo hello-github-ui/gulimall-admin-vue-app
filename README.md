@@ -1,8 +1,20 @@
 # gulimall-admin-vue-app
 谷粒商城后台管理系统-[前端系统仓库](https://github.com/hello-github-ui/gulimall-admin-vue-app)
 
+## 依赖安装
+
+> 要想使 `npm install` 不报错并顺利安装完，需要如下两个前提：
+>
+> - 安装的 `NodeJS` 的版本不能太新，建议使用 `v12.22.12`
+> - 修改 `package.json` 中 node-sass 的版本为： `"node-sass": "4.14.1"` 
+> - 至于 `python` 的版本，应该没关系，不过我本地使用的是 `Python 2.7.16`
+>
+> 之后就可以正常安装完了，不用使用 cnpm
+
 # gulimall
 谷粒商城后台管理系统-[后端系统仓库](https://github.com/hello-github-ui/gulimall)
+
+
 
 ## renren-fast-vue
 
